@@ -18,8 +18,8 @@ import "google/api/annotations.proto";
 
 option go_package = "../recordpb";
 option java_multiple_files = true;
-option java_package = "com.codeallergy";
-option java_outer_classname = "RecordbaseProtos";
+option java_package = "com.codeallergy.recordbase";
+option java_outer_classname = "RecordProtos";
 option objc_class_prefix = "RBP";
 
 import "protoc-gen-openapiv2/options/annotations.proto";
