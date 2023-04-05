@@ -494,7 +494,7 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/record.RecordService/GetCounts", runtime.WithHTTPPathPattern("/api/v1/counts"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/GetCounts", runtime.WithHTTPPathPattern("/api/v1/counts"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -519,7 +519,7 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/record.RecordService/Lookup", runtime.WithHTTPPathPattern("/api/v1/records/lookup"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/Lookup", runtime.WithHTTPPathPattern("/api/v1/records/lookup"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -551,7 +551,7 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/record.RecordService/Get", runtime.WithHTTPPathPattern("/api/v1/records/get"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/Get", runtime.WithHTTPPathPattern("/api/v1/records/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -576,7 +576,7 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/record.RecordService/Create", runtime.WithHTTPPathPattern("/api/v1/records/create"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/Create", runtime.WithHTTPPathPattern("/api/v1/records/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -601,7 +601,7 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/record.RecordService/Delete", runtime.WithHTTPPathPattern("/api/v1/records/delete"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/Delete", runtime.WithHTTPPathPattern("/api/v1/records/delete"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -626,7 +626,7 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/record.RecordService/Update", runtime.WithHTTPPathPattern("/api/v1/records/update"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/Update", runtime.WithHTTPPathPattern("/api/v1/records/update"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -658,7 +658,7 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/record.RecordService/AddKeyRange", runtime.WithHTTPPathPattern("/api/v1/keys/add"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/AddKeyRange", runtime.WithHTTPPathPattern("/api/v1/keys/add"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -683,7 +683,7 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/record.RecordService/GetKeyCapacity", runtime.WithHTTPPathPattern("/api/v1/keys/capacity"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/GetKeyCapacity", runtime.WithHTTPPathPattern("/api/v1/keys/capacity"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -708,7 +708,7 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/record.RecordService/MapGet", runtime.WithHTTPPathPattern("/api/v1/records/map/get"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/MapGet", runtime.WithHTTPPathPattern("/api/v1/records/map/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -733,7 +733,7 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/record.RecordService/MapPut", runtime.WithHTTPPathPattern("/api/v1/records/map/put"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/MapPut", runtime.WithHTTPPathPattern("/api/v1/records/map/put"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -758,7 +758,7 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/record.RecordService/MapRemove", runtime.WithHTTPPathPattern("/api/v1/records/map/remove"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/MapRemove", runtime.WithHTTPPathPattern("/api/v1/records/map/remove"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -829,7 +829,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/GetCounts", runtime.WithHTTPPathPattern("/api/v1/counts"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/GetCounts", runtime.WithHTTPPathPattern("/api/v1/counts"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -851,7 +851,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/Lookup", runtime.WithHTTPPathPattern("/api/v1/records/lookup"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/Lookup", runtime.WithHTTPPathPattern("/api/v1/records/lookup"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -873,7 +873,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/Search", runtime.WithHTTPPathPattern("/api/v1/records/search"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/Search", runtime.WithHTTPPathPattern("/api/v1/records/search"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -895,7 +895,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/Get", runtime.WithHTTPPathPattern("/api/v1/records/get"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/Get", runtime.WithHTTPPathPattern("/api/v1/records/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -917,7 +917,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/Create", runtime.WithHTTPPathPattern("/api/v1/records/create"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/Create", runtime.WithHTTPPathPattern("/api/v1/records/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -939,7 +939,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/Delete", runtime.WithHTTPPathPattern("/api/v1/records/delete"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/Delete", runtime.WithHTTPPathPattern("/api/v1/records/delete"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -961,7 +961,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/Update", runtime.WithHTTPPathPattern("/api/v1/records/update"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/Update", runtime.WithHTTPPathPattern("/api/v1/records/update"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -983,7 +983,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/Scan", runtime.WithHTTPPathPattern("/api/v1/records/scan"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/Scan", runtime.WithHTTPPathPattern("/api/v1/records/scan"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1005,7 +1005,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/AddKeyRange", runtime.WithHTTPPathPattern("/api/v1/keys/add"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/AddKeyRange", runtime.WithHTTPPathPattern("/api/v1/keys/add"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1027,7 +1027,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/GetKeyCapacity", runtime.WithHTTPPathPattern("/api/v1/keys/capacity"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/GetKeyCapacity", runtime.WithHTTPPathPattern("/api/v1/keys/capacity"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1049,7 +1049,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/MapGet", runtime.WithHTTPPathPattern("/api/v1/records/map/get"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/MapGet", runtime.WithHTTPPathPattern("/api/v1/records/map/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1071,7 +1071,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/MapPut", runtime.WithHTTPPathPattern("/api/v1/records/map/put"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/MapPut", runtime.WithHTTPPathPattern("/api/v1/records/map/put"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1093,7 +1093,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/MapRemove", runtime.WithHTTPPathPattern("/api/v1/records/map/remove"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/MapRemove", runtime.WithHTTPPathPattern("/api/v1/records/map/remove"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1115,7 +1115,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/record.RecordService/MapRange", runtime.WithHTTPPathPattern("/api/v1/records/map/range"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/MapRange", runtime.WithHTTPPathPattern("/api/v1/records/map/range"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

@@ -35,7 +35,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/recordCounts"
+              "$ref": "#/definitions/recordbaseCounts"
             }
           },
           "default": {
@@ -51,7 +51,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordTenantRequest"
+              "$ref": "#/definitions/recordbaseTenantRequest"
             }
           }
         ],
@@ -85,7 +85,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordKeyRange"
+              "$ref": "#/definitions/recordbaseKeyRange"
             }
           }
         ],
@@ -102,7 +102,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/recordKeyCapacity"
+              "$ref": "#/definitions/recordbaseKeyCapacity"
             }
           },
           "default": {
@@ -118,7 +118,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordTenantRequest"
+              "$ref": "#/definitions/recordbaseTenantRequest"
             }
           }
         ],
@@ -135,7 +135,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/recordCreateResponse"
+              "$ref": "#/definitions/recordbaseCreateResponse"
             }
           },
           "default": {
@@ -151,7 +151,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordCreateRequest"
+              "$ref": "#/definitions/recordbaseCreateRequest"
             }
           }
         ],
@@ -185,7 +185,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordDeleteRequest"
+              "$ref": "#/definitions/recordbaseDeleteRequest"
             }
           }
         ],
@@ -202,7 +202,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/recordRecordEntry"
+              "$ref": "#/definitions/recordbaseRecordEntry"
             }
           },
           "default": {
@@ -218,7 +218,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordGetRequest"
+              "$ref": "#/definitions/recordbaseGetRequest"
             }
           }
         ],
@@ -235,7 +235,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/recordRecordEntry"
+              "$ref": "#/definitions/recordbaseRecordEntry"
             }
           },
           "default": {
@@ -251,7 +251,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordLookupRequest"
+              "$ref": "#/definitions/recordbaseLookupRequest"
             }
           }
         ],
@@ -268,7 +268,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/recordMapEntry"
+              "$ref": "#/definitions/recordbaseMapEntry"
             }
           },
           "default": {
@@ -284,7 +284,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordMapGetRequest"
+              "$ref": "#/definitions/recordbaseMapGetRequest"
             }
           }
         ],
@@ -301,7 +301,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/recordMapValue"
+              "$ref": "#/definitions/recordbaseMapValue"
             }
           },
           "default": {
@@ -317,7 +317,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordMapPutRequest"
+              "$ref": "#/definitions/recordbaseMapPutRequest"
             }
           }
         ],
@@ -337,13 +337,13 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/recordMapEntry"
+                  "$ref": "#/definitions/recordbaseMapEntry"
                 },
                 "error": {
                   "$ref": "#/definitions/rpcStatus"
                 }
               },
-              "title": "Stream result of recordMapEntry"
+              "title": "Stream result of recordbaseMapEntry"
             }
           },
           "default": {
@@ -359,7 +359,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordMapRangeRequest"
+              "$ref": "#/definitions/recordbaseMapRangeRequest"
             }
           }
         ],
@@ -376,7 +376,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/recordMapValue"
+              "$ref": "#/definitions/recordbaseMapValue"
             }
           },
           "default": {
@@ -392,7 +392,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordMapRemoveRequest"
+              "$ref": "#/definitions/recordbaseMapRemoveRequest"
             }
           }
         ],
@@ -412,13 +412,13 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/recordRecordEntry"
+                  "$ref": "#/definitions/recordbaseRecordEntry"
                 },
                 "error": {
                   "$ref": "#/definitions/rpcStatus"
                 }
               },
-              "title": "Stream result of recordRecordEntry"
+              "title": "Stream result of recordbaseRecordEntry"
             }
           },
           "default": {
@@ -434,7 +434,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordScanRequest"
+              "$ref": "#/definitions/recordbaseScanRequest"
             }
           }
         ],
@@ -454,13 +454,13 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/recordRecordEntry"
+                  "$ref": "#/definitions/recordbaseRecordEntry"
                 },
                 "error": {
                   "$ref": "#/definitions/rpcStatus"
                 }
               },
-              "title": "Stream result of recordRecordEntry"
+              "title": "Stream result of recordbaseRecordEntry"
             }
           },
           "default": {
@@ -476,7 +476,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordSearchRequest"
+              "$ref": "#/definitions/recordbaseSearchRequest"
             }
           }
         ],
@@ -510,7 +510,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/recordUpdateRequest"
+              "$ref": "#/definitions/recordbaseUpdateRequest"
             }
           }
         ],
@@ -530,7 +530,7 @@
       },
       "additionalProperties": {}
     },
-    "recordAttributeEntry": {
+    "recordbaseAttributeEntry": {
       "type": "object",
       "properties": {
         "name": {
@@ -542,7 +542,7 @@
       },
       "title": "all attributes are indexed in the form of 'name:value' -\u003e record, list\u003crecord\u003e"
     },
-    "recordColumnEntry": {
+    "recordbaseColumnEntry": {
       "type": "object",
       "properties": {
         "name": {
@@ -555,7 +555,7 @@
       },
       "title": "keys stored inside the record, values stored inside the record"
     },
-    "recordCountEntry": {
+    "recordbaseCountEntry": {
       "type": "object",
       "properties": {
         "name": {
@@ -567,7 +567,7 @@
         }
       }
     },
-    "recordCounts": {
+    "recordbaseCounts": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -577,26 +577,26 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordCountEntry"
+            "$ref": "#/definitions/recordbaseCountEntry"
           }
         },
         "tags": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordCountEntry"
+            "$ref": "#/definitions/recordbaseCountEntry"
           }
         },
         "columns": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordCountEntry"
+            "$ref": "#/definitions/recordbaseCountEntry"
           }
         }
       }
     },
-    "recordCreateRequest": {
+    "recordbaseCreateRequest": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -606,7 +606,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordAttributeEntry"
+            "$ref": "#/definitions/recordbaseAttributeEntry"
           }
         },
         "tags": {
@@ -619,19 +619,19 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordColumnEntry"
+            "$ref": "#/definitions/recordbaseColumnEntry"
           }
         },
         "files": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordFileEntry"
+            "$ref": "#/definitions/recordbaseFileEntry"
           }
         }
       }
     },
-    "recordCreateResponse": {
+    "recordbaseCreateResponse": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -642,7 +642,7 @@
         }
       }
     },
-    "recordDeleteRequest": {
+    "recordbaseDeleteRequest": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -653,7 +653,7 @@
         }
       }
     },
-    "recordFileEntry": {
+    "recordbaseFileEntry": {
       "type": "object",
       "properties": {
         "name": {
@@ -674,7 +674,7 @@
       },
       "title": "keys stored inside the record, values stored outside of the record"
     },
-    "recordGetRequest": {
+    "recordbaseGetRequest": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -688,7 +688,7 @@
         }
       }
     },
-    "recordKeyCapacity": {
+    "recordbaseKeyCapacity": {
       "type": "object",
       "properties": {
         "pendingKeys": {
@@ -697,7 +697,7 @@
         }
       }
     },
-    "recordKeyRange": {
+    "recordbaseKeyRange": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -713,14 +713,14 @@
         }
       }
     },
-    "recordLookupRequest": {
+    "recordbaseLookupRequest": {
       "type": "object",
       "properties": {
         "tenant": {
           "type": "string"
         },
         "lookupType": {
-          "$ref": "#/definitions/recordLookupType"
+          "$ref": "#/definitions/recordbaseLookupType"
         },
         "name": {
           "type": "string"
@@ -733,7 +733,7 @@
         }
       }
     },
-    "recordLookupType": {
+    "recordbaseLookupType": {
       "type": "string",
       "enum": [
         "UNKNOWN_LOOKUP",
@@ -743,7 +743,7 @@
       ],
       "default": "UNKNOWN_LOOKUP"
     },
-    "recordMapEntry": {
+    "recordbaseMapEntry": {
       "type": "object",
       "properties": {
         "mapKey": {
@@ -760,7 +760,7 @@
       },
       "title": "keys stored outside of the record, values stored outside of the record"
     },
-    "recordMapGetRequest": {
+    "recordbaseMapGetRequest": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -774,7 +774,7 @@
         }
       }
     },
-    "recordMapPutRequest": {
+    "recordbaseMapPutRequest": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -796,7 +796,7 @@
         }
       }
     },
-    "recordMapRangeRequest": {
+    "recordbaseMapRangeRequest": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -815,7 +815,7 @@
         }
       }
     },
-    "recordMapRemoveRequest": {
+    "recordbaseMapRemoveRequest": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -829,7 +829,7 @@
         }
       }
     },
-    "recordMapValue": {
+    "recordbaseMapValue": {
       "type": "object",
       "properties": {
         "value": {
@@ -841,7 +841,7 @@
         }
       }
     },
-    "recordRecordEntry": {
+    "recordbaseRecordEntry": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -870,7 +870,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordAttributeEntry"
+            "$ref": "#/definitions/recordbaseAttributeEntry"
           },
           "title": "all records are indexed by hash256(name:value)"
         },
@@ -885,7 +885,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordColumnEntry"
+            "$ref": "#/definitions/recordbaseColumnEntry"
           },
           "title": "values stored inside the record"
         },
@@ -893,14 +893,14 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordFileEntry"
+            "$ref": "#/definitions/recordbaseFileEntry"
           },
           "title": "values stored outside of record"
         }
       },
       "title": "located in tenant:rec:primary_key"
     },
-    "recordScanRequest": {
+    "recordbaseScanRequest": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -919,14 +919,14 @@
         }
       }
     },
-    "recordSearchRequest": {
+    "recordbaseSearchRequest": {
       "type": "object",
       "properties": {
         "tenant": {
           "type": "string"
         },
         "lookupType": {
-          "$ref": "#/definitions/recordLookupType"
+          "$ref": "#/definitions/recordbaseLookupType"
         },
         "name": {
           "type": "string"
@@ -936,7 +936,7 @@
         }
       }
     },
-    "recordTenantRequest": {
+    "recordbaseTenantRequest": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -944,7 +944,7 @@
         }
       }
     },
-    "recordUpdateRequest": {
+    "recordbaseUpdateRequest": {
       "type": "object",
       "properties": {
         "tenant": {
@@ -954,13 +954,13 @@
           "type": "string"
         },
         "updateType": {
-          "$ref": "#/definitions/recordUpdateType"
+          "$ref": "#/definitions/recordbaseUpdateType"
         },
         "attributes": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordAttributeEntry"
+            "$ref": "#/definitions/recordbaseAttributeEntry"
           }
         },
         "tags": {
@@ -973,19 +973,19 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordColumnEntry"
+            "$ref": "#/definitions/recordbaseColumnEntry"
           }
         },
         "files": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordFileEntry"
+            "$ref": "#/definitions/recordbaseFileEntry"
           }
         }
       }
     },
-    "recordUpdateType": {
+    "recordbaseUpdateType": {
       "type": "string",
       "enum": [
         "UNKNOWN_TYPE",

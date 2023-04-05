@@ -34,20 +34,20 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RecordService_GetCounts_FullMethodName      = "/record.RecordService/GetCounts"
-	RecordService_Lookup_FullMethodName         = "/record.RecordService/Lookup"
-	RecordService_Search_FullMethodName         = "/record.RecordService/Search"
-	RecordService_Get_FullMethodName            = "/record.RecordService/Get"
-	RecordService_Create_FullMethodName         = "/record.RecordService/Create"
-	RecordService_Delete_FullMethodName         = "/record.RecordService/Delete"
-	RecordService_Update_FullMethodName         = "/record.RecordService/Update"
-	RecordService_Scan_FullMethodName           = "/record.RecordService/Scan"
-	RecordService_AddKeyRange_FullMethodName    = "/record.RecordService/AddKeyRange"
-	RecordService_GetKeyCapacity_FullMethodName = "/record.RecordService/GetKeyCapacity"
-	RecordService_MapGet_FullMethodName         = "/record.RecordService/MapGet"
-	RecordService_MapPut_FullMethodName         = "/record.RecordService/MapPut"
-	RecordService_MapRemove_FullMethodName      = "/record.RecordService/MapRemove"
-	RecordService_MapRange_FullMethodName       = "/record.RecordService/MapRange"
+	RecordService_GetCounts_FullMethodName      = "/recordbase.RecordService/GetCounts"
+	RecordService_Lookup_FullMethodName         = "/recordbase.RecordService/Lookup"
+	RecordService_Search_FullMethodName         = "/recordbase.RecordService/Search"
+	RecordService_Get_FullMethodName            = "/recordbase.RecordService/Get"
+	RecordService_Create_FullMethodName         = "/recordbase.RecordService/Create"
+	RecordService_Delete_FullMethodName         = "/recordbase.RecordService/Delete"
+	RecordService_Update_FullMethodName         = "/recordbase.RecordService/Update"
+	RecordService_Scan_FullMethodName           = "/recordbase.RecordService/Scan"
+	RecordService_AddKeyRange_FullMethodName    = "/recordbase.RecordService/AddKeyRange"
+	RecordService_GetKeyCapacity_FullMethodName = "/recordbase.RecordService/GetKeyCapacity"
+	RecordService_MapGet_FullMethodName         = "/recordbase.RecordService/MapGet"
+	RecordService_MapPut_FullMethodName         = "/recordbase.RecordService/MapPut"
+	RecordService_MapRemove_FullMethodName      = "/recordbase.RecordService/MapRemove"
+	RecordService_MapRange_FullMethodName       = "/recordbase.RecordService/MapRange"
 )
 
 // RecordServiceClient is the client API for RecordService service.
@@ -702,7 +702,7 @@ func (x *recordServiceMapRangeServer) Send(m *MapEntry) error {
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var RecordService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "record.RecordService",
+	ServiceName: "recordbase.RecordService",
 	HandlerType: (*RecordServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
