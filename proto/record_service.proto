@@ -320,7 +320,8 @@ message UploadFileRequest {
     string    primary_key = 2;
     string    file_name = 3;  // could be a path
     bytes     data = 4;
-    bool      append = 5;
+    int32     chunk = 5;      // 0, 1, 2, etc - chunk number
+    bool      last = 6;       // last chunk always empty
 }
 
 message DownloadFileRequest {
