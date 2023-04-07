@@ -316,6 +316,14 @@ message UploadFileContent {
     bytes     data = 4;
 }
 
+message UploadFileRequest {
+    string    tenant = 1;
+    string    primary_key = 2;
+    string    file_name = 3;  // could be a path
+    bytes     data = 4;
+    bool      append = 5;
+}
+
 message DownloadFileRequest {
     string    tenant = 1;
     string    primary_key = 2;
@@ -457,9 +465,11 @@ message Command {
     CreateRequest      create_req = 2;
     UpdateRequest      update_req = 3;
     DeleteRequest      delete_req = 4;
-    KeyRange           key_range = 5;
-    MapPutRequest      map_put_req = 6;
-    MapRemoveRequest   map_remove_req = 7;
+    UploadFileRequest  upload_file_req = 5;
+    DeleteFileRequest  delete_file_req = 6;
+    KeyRange           key_range = 7;
+    MapPutRequest      map_put_req = 8;
+    MapRemoveRequest   map_remove_req = 9;
 }
 
 
