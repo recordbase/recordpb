@@ -116,11 +116,11 @@ type RecordServiceClient interface {
 	//
 	// Put map value associated with the record. Returns old value.
 	//
-	MapPut(ctx context.Context, in *MapPutRequest, opts ...grpc.CallOption) (*MapValue, error)
+	MapPut(ctx context.Context, in *MapPutRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	//
 	// Remove map value associated with the record. Returns old value.
 	//
-	MapRemove(ctx context.Context, in *MapRemoveRequest, opts ...grpc.CallOption) (*MapValue, error)
+	MapRemove(ctx context.Context, in *MapRemoveRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	//
 	// Scan all map key-value pairs
 	//
@@ -355,8 +355,8 @@ func (c *recordServiceClient) MapGet(ctx context.Context, in *MapGetRequest, opt
 	return out, nil
 }
 
-func (c *recordServiceClient) MapPut(ctx context.Context, in *MapPutRequest, opts ...grpc.CallOption) (*MapValue, error) {
-	out := new(MapValue)
+func (c *recordServiceClient) MapPut(ctx context.Context, in *MapPutRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, RecordService_MapPut_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -364,8 +364,8 @@ func (c *recordServiceClient) MapPut(ctx context.Context, in *MapPutRequest, opt
 	return out, nil
 }
 
-func (c *recordServiceClient) MapRemove(ctx context.Context, in *MapRemoveRequest, opts ...grpc.CallOption) (*MapValue, error) {
-	out := new(MapValue)
+func (c *recordServiceClient) MapRemove(ctx context.Context, in *MapRemoveRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, RecordService_MapRemove_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -468,11 +468,11 @@ type RecordServiceServer interface {
 	//
 	// Put map value associated with the record. Returns old value.
 	//
-	MapPut(context.Context, *MapPutRequest) (*MapValue, error)
+	MapPut(context.Context, *MapPutRequest) (*emptypb.Empty, error)
 	//
 	// Remove map value associated with the record. Returns old value.
 	//
-	MapRemove(context.Context, *MapRemoveRequest) (*MapValue, error)
+	MapRemove(context.Context, *MapRemoveRequest) (*emptypb.Empty, error)
 	//
 	// Scan all map key-value pairs
 	//
@@ -526,10 +526,10 @@ func (UnimplementedRecordServiceServer) GetKeyCapacity(context.Context, *TenantR
 func (UnimplementedRecordServiceServer) MapGet(context.Context, *MapGetRequest) (*MapEntry, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MapGet not implemented")
 }
-func (UnimplementedRecordServiceServer) MapPut(context.Context, *MapPutRequest) (*MapValue, error) {
+func (UnimplementedRecordServiceServer) MapPut(context.Context, *MapPutRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MapPut not implemented")
 }
-func (UnimplementedRecordServiceServer) MapRemove(context.Context, *MapRemoveRequest) (*MapValue, error) {
+func (UnimplementedRecordServiceServer) MapRemove(context.Context, *MapRemoveRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MapRemove not implemented")
 }
 func (UnimplementedRecordServiceServer) MapRange(*MapRangeRequest, RecordService_MapRangeServer) error {

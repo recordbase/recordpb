@@ -194,7 +194,7 @@ service RecordService {
     //
     // Put map value associated with the record. Returns old value.
     //
-    rpc MapPut(MapPutRequest) returns (MapValue) {
+    rpc MapPut(MapPutRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             put: "/api/v1/records/map/put"
             body: "*"
@@ -204,7 +204,7 @@ service RecordService {
     //
     // Remove map value associated with the record. Returns old value.
     //
-    rpc MapRemove(MapRemoveRequest) returns (MapValue) {
+    rpc MapRemove(MapRemoveRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             put: "/api/v1/records/map/remove"
             body: "*"
@@ -367,16 +367,9 @@ message MapRemoveRequest {
     string  map_key = 3;
 }
 
-message MapValue {
-    bytes   value = 2;
-    bool    updated = 3;
-}
-
 message MapRangeRequest {
     string    tenant = 1;
-    string    prefix = 2;
-    int32     offset = 3;
-    int32     limit = 4;
+    string    primary_key = 2;
 }
 
 //

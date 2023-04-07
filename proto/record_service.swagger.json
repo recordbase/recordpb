@@ -412,7 +412,8 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/recordbaseMapValue"
+              "type": "object",
+              "properties": {}
             }
           },
           "default": {
@@ -487,7 +488,8 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/recordbaseMapValue"
+              "type": "object",
+              "properties": {}
             }
           },
           "default": {
@@ -948,16 +950,8 @@
         "tenant": {
           "type": "string"
         },
-        "prefix": {
+        "primaryKey": {
           "type": "string"
-        },
-        "offset": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int32"
         }
       }
     },
@@ -972,18 +966,6 @@
         },
         "mapKey": {
           "type": "string"
-        }
-      }
-    },
-    "recordbaseMapValue": {
-      "type": "object",
-      "properties": {
-        "value": {
-          "type": "string",
-          "format": "byte"
-        },
-        "updated": {
-          "type": "boolean"
         }
       }
     },

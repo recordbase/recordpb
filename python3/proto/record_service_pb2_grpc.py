@@ -92,12 +92,12 @@ class RecordServiceStub(object):
         self.MapPut = channel.unary_unary(
                 '/recordbase.RecordService/MapPut',
                 request_serializer=proto_dot_record__service__pb2.MapPutRequest.SerializeToString,
-                response_deserializer=proto_dot_record__service__pb2.MapValue.FromString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
         self.MapRemove = channel.unary_unary(
                 '/recordbase.RecordService/MapRemove',
                 request_serializer=proto_dot_record__service__pb2.MapRemoveRequest.SerializeToString,
-                response_deserializer=proto_dot_record__service__pb2.MapValue.FromString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
         self.MapRange = channel.unary_stream(
                 '/recordbase.RecordService/MapRange',
@@ -342,12 +342,12 @@ def add_RecordServiceServicer_to_server(servicer, server):
             'MapPut': grpc.unary_unary_rpc_method_handler(
                     servicer.MapPut,
                     request_deserializer=proto_dot_record__service__pb2.MapPutRequest.FromString,
-                    response_serializer=proto_dot_record__service__pb2.MapValue.SerializeToString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
             'MapRemove': grpc.unary_unary_rpc_method_handler(
                     servicer.MapRemove,
                     request_deserializer=proto_dot_record__service__pb2.MapRemoveRequest.FromString,
-                    response_serializer=proto_dot_record__service__pb2.MapValue.SerializeToString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
             'MapRange': grpc.unary_stream_rpc_method_handler(
                     servicer.MapRange,
@@ -619,7 +619,7 @@ class RecordService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/recordbase.RecordService/MapPut',
             proto_dot_record__service__pb2.MapPutRequest.SerializeToString,
-            proto_dot_record__service__pb2.MapValue.FromString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -636,7 +636,7 @@ class RecordService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/recordbase.RecordService/MapRemove',
             proto_dot_record__service__pb2.MapRemoveRequest.SerializeToString,
-            proto_dot_record__service__pb2.MapValue.FromString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
