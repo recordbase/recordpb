@@ -276,7 +276,6 @@ message CreateRequest {
     repeated AttributeEntry attributes = 5;
     repeated string tags = 6;
     repeated ColumnEntry columns = 7;
-    repeated FileEntry files = 8;
 }
 
 message DeleteRequest {
