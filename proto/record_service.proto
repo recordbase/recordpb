@@ -126,7 +126,7 @@ service RecordService {
     //
     rpc UploadFile(stream UploadFileContent) returns (google.protobuf.Empty) {
         option (google.api.http) = {
-            put: "/api/v1/records/upload"
+            put: "/api/v1/files/upload"
             body: "*"
         };
     }
@@ -136,7 +136,17 @@ service RecordService {
     //
     rpc DownloadFile(DownloadFileRequest) returns (stream FileContent) {
         option (google.api.http) = {
-            put: "/api/v1/records/download"
+            put: "/api/v1/files/download"
+            body: "*"
+        };
+    }
+
+    //
+    // Delete File
+    //
+    rpc DeleteFile(DeleteFileRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            put: "/api/v1/files/delete"
             body: "*"
         };
     }
@@ -312,6 +322,12 @@ message DownloadFileRequest {
     string    file_name = 3;   // could be a path
 }
 
+message DeleteFileRequest {
+    string    tenant = 1;
+    string    primary_key = 2;
+    string    file_name = 3;   // could be a path
+}
+
 message FileContent {
     bytes  data = 1;
 }
@@ -382,6 +398,8 @@ message FileEntry {
     bytes  data = 2;
     int32  size = 3;
     int64  created_at = 4;
+    int64  updated_at = 5;
+    int64  deleted_at = 6;
 }
 
 // keys stored outside of the record, values stored outside of the record

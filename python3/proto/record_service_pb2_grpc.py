@@ -64,6 +64,11 @@ class RecordServiceStub(object):
                 request_serializer=proto_dot_record__service__pb2.DownloadFileRequest.SerializeToString,
                 response_deserializer=proto_dot_record__service__pb2.FileContent.FromString,
                 )
+        self.DeleteFile = channel.unary_unary(
+                '/recordbase.RecordService/DeleteFile',
+                request_serializer=proto_dot_record__service__pb2.DeleteFileRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
         self.Scan = channel.unary_stream(
                 '/recordbase.RecordService/Scan',
                 request_serializer=proto_dot_record__service__pb2.ScanRequest.SerializeToString,
@@ -189,6 +194,15 @@ class RecordServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def DeleteFile(self, request, context):
+        """
+        Delete File
+
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def Scan(self, request, context):
         """
         Scan records
@@ -299,6 +313,11 @@ def add_RecordServiceServicer_to_server(servicer, server):
                     servicer.DownloadFile,
                     request_deserializer=proto_dot_record__service__pb2.DownloadFileRequest.FromString,
                     response_serializer=proto_dot_record__service__pb2.FileContent.SerializeToString,
+            ),
+            'DeleteFile': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteFile,
+                    request_deserializer=proto_dot_record__service__pb2.DeleteFileRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
             'Scan': grpc.unary_stream_rpc_method_handler(
                     servicer.Scan,
@@ -499,6 +518,23 @@ class RecordService(object):
         return grpc.experimental.unary_stream(request, target, '/recordbase.RecordService/DownloadFile',
             proto_dot_record__service__pb2.DownloadFileRequest.SerializeToString,
             proto_dot_record__service__pb2.FileContent.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def DeleteFile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/recordbase.RecordService/DeleteFile',
+            proto_dot_record__service__pb2.DeleteFileRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

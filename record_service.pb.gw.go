@@ -329,6 +329,40 @@ func request_RecordService_DownloadFile_0(ctx context.Context, marshaler runtime
 
 }
 
+func request_RecordService_DeleteFile_0(ctx context.Context, marshaler runtime.Marshaler, client RecordServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq DeleteFileRequest
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := client.DeleteFile(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_RecordService_DeleteFile_0(ctx context.Context, marshaler runtime.Marshaler, server RecordServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq DeleteFileRequest
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := server.DeleteFile(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
 func request_RecordService_Scan_0(ctx context.Context, marshaler runtime.Marshaler, client RecordServiceClient, req *http.Request, pathParams map[string]string) (RecordService_ScanClient, runtime.ServerMetadata, error) {
 	var protoReq ScanRequest
 	var metadata runtime.ServerMetadata
@@ -726,6 +760,31 @@ func RegisterRecordServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		return
 	})
 
+	mux.Handle("PUT", pattern_RecordService_DeleteFile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/recordbase.RecordService/DeleteFile", runtime.WithHTTPPathPattern("/api/v1/files/delete"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_RecordService_DeleteFile_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_RecordService_DeleteFile_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	mux.Handle("PUT", pattern_RecordService_Scan_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -1066,7 +1125,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/UploadFile", runtime.WithHTTPPathPattern("/api/v1/records/upload"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/UploadFile", runtime.WithHTTPPathPattern("/api/v1/files/upload"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1088,7 +1147,7 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/DownloadFile", runtime.WithHTTPPathPattern("/api/v1/records/download"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/DownloadFile", runtime.WithHTTPPathPattern("/api/v1/files/download"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1101,6 +1160,28 @@ func RegisterRecordServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		}
 
 		forward_RecordService_DownloadFile_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("PUT", pattern_RecordService_DeleteFile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/recordbase.RecordService/DeleteFile", runtime.WithHTTPPathPattern("/api/v1/files/delete"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_RecordService_DeleteFile_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_RecordService_DeleteFile_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -1276,9 +1357,11 @@ var (
 
 	pattern_RecordService_Update_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "records", "update"}, ""))
 
-	pattern_RecordService_UploadFile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "records", "upload"}, ""))
+	pattern_RecordService_UploadFile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "files", "upload"}, ""))
 
-	pattern_RecordService_DownloadFile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "records", "download"}, ""))
+	pattern_RecordService_DownloadFile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "files", "download"}, ""))
+
+	pattern_RecordService_DeleteFile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "files", "delete"}, ""))
 
 	pattern_RecordService_Scan_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "records", "scan"}, ""))
 
@@ -1313,6 +1396,8 @@ var (
 	forward_RecordService_UploadFile_0 = runtime.ForwardResponseMessage
 
 	forward_RecordService_DownloadFile_0 = runtime.ForwardResponseStream
+
+	forward_RecordService_DeleteFile_0 = runtime.ForwardResponseMessage
 
 	forward_RecordService_Scan_0 = runtime.ForwardResponseStream
 

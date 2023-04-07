@@ -60,6 +60,117 @@
         ]
       }
     },
+    "/api/v1/files/delete": {
+      "put": {
+        "summary": "Delete File",
+        "operationId": "RecordService_DeleteFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/recordbaseDeleteFileRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RecordService"
+        ]
+      }
+    },
+    "/api/v1/files/download": {
+      "put": {
+        "summary": "Download File",
+        "operationId": "RecordService_DownloadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/recordbaseFileContent"
+                },
+                "error": {
+                  "$ref": "#/definitions/rpcStatus"
+                }
+              },
+              "title": "Stream result of recordbaseFileContent"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/recordbaseDownloadFileRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RecordService"
+        ]
+      }
+    },
+    "/api/v1/files/upload": {
+      "put": {
+        "summary": "Upload File",
+        "operationId": "RecordService_UploadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " (streaming inputs)",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/recordbaseUploadFileContent"
+            }
+          }
+        ],
+        "tags": [
+          "RecordService"
+        ]
+      }
+    },
     "/api/v1/keys/add": {
       "put": {
         "summary": "Allocate primary key range",
@@ -186,48 +297,6 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/recordbaseDeleteRequest"
-            }
-          }
-        ],
-        "tags": [
-          "RecordService"
-        ]
-      }
-    },
-    "/api/v1/records/download": {
-      "put": {
-        "summary": "Download File",
-        "operationId": "RecordService_DownloadFile",
-        "responses": {
-          "200": {
-            "description": "A successful response.(streaming responses)",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "result": {
-                  "$ref": "#/definitions/recordbaseFileContent"
-                },
-                "error": {
-                  "$ref": "#/definitions/rpcStatus"
-                }
-              },
-              "title": "Stream result of recordbaseFileContent"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/recordbaseDownloadFileRequest"
             }
           }
         ],
@@ -560,41 +629,6 @@
           "RecordService"
         ]
       }
-    },
-    "/api/v1/records/upload": {
-      "put": {
-        "summary": "Upload File",
-        "operationId": "RecordService_UploadFile",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " (streaming inputs)",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/recordbaseUploadFileContent"
-            }
-          }
-        ],
-        "tags": [
-          "RecordService"
-        ]
-      }
     }
   },
   "definitions": {
@@ -712,6 +746,21 @@
         }
       }
     },
+    "recordbaseDeleteFileRequest": {
+      "type": "object",
+      "properties": {
+        "tenant": {
+          "type": "string"
+        },
+        "primaryKey": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string",
+          "title": "could be a path"
+        }
+      }
+    },
     "recordbaseDeleteRequest": {
       "type": "object",
       "properties": {
@@ -763,6 +812,14 @@
           "format": "int32"
         },
         "createdAt": {
+          "type": "string",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "int64"
+        },
+        "deletedAt": {
           "type": "string",
           "format": "int64"
         }

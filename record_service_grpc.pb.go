@@ -43,6 +43,7 @@ const (
 	RecordService_Update_FullMethodName         = "/recordbase.RecordService/Update"
 	RecordService_UploadFile_FullMethodName     = "/recordbase.RecordService/UploadFile"
 	RecordService_DownloadFile_FullMethodName   = "/recordbase.RecordService/DownloadFile"
+	RecordService_DeleteFile_FullMethodName     = "/recordbase.RecordService/DeleteFile"
 	RecordService_Scan_FullMethodName           = "/recordbase.RecordService/Scan"
 	RecordService_AddKeyRange_FullMethodName    = "/recordbase.RecordService/AddKeyRange"
 	RecordService_GetKeyCapacity_FullMethodName = "/recordbase.RecordService/GetKeyCapacity"
@@ -92,6 +93,10 @@ type RecordServiceClient interface {
 	// Download File
 	//
 	DownloadFile(ctx context.Context, in *DownloadFileRequest, opts ...grpc.CallOption) (RecordService_DownloadFileClient, error)
+	//
+	// Delete File
+	//
+	DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	//
 	// Scan records
 	//
@@ -282,6 +287,15 @@ func (x *recordServiceDownloadFileClient) Recv() (*FileContent, error) {
 	return m, nil
 }
 
+func (c *recordServiceClient) DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, RecordService_DeleteFile_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *recordServiceClient) Scan(ctx context.Context, in *ScanRequest, opts ...grpc.CallOption) (RecordService_ScanClient, error) {
 	stream, err := c.cc.NewStream(ctx, &RecordService_ServiceDesc.Streams[3], RecordService_Scan_FullMethodName, opts...)
 	if err != nil {
@@ -432,6 +446,10 @@ type RecordServiceServer interface {
 	//
 	DownloadFile(*DownloadFileRequest, RecordService_DownloadFileServer) error
 	//
+	// Delete File
+	//
+	DeleteFile(context.Context, *DeleteFileRequest) (*emptypb.Empty, error)
+	//
 	// Scan records
 	//
 	Scan(*ScanRequest, RecordService_ScanServer) error
@@ -492,6 +510,9 @@ func (UnimplementedRecordServiceServer) UploadFile(RecordService_UploadFileServe
 }
 func (UnimplementedRecordServiceServer) DownloadFile(*DownloadFileRequest, RecordService_DownloadFileServer) error {
 	return status.Errorf(codes.Unimplemented, "method DownloadFile not implemented")
+}
+func (UnimplementedRecordServiceServer) DeleteFile(context.Context, *DeleteFileRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFile not implemented")
 }
 func (UnimplementedRecordServiceServer) Scan(*ScanRequest, RecordService_ScanServer) error {
 	return status.Errorf(codes.Unimplemented, "method Scan not implemented")
@@ -703,6 +724,24 @@ func (x *recordServiceDownloadFileServer) Send(m *FileContent) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _RecordService_DeleteFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecordServiceServer).DeleteFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RecordService_DeleteFile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecordServiceServer).DeleteFile(ctx, req.(*DeleteFileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _RecordService_Scan_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(ScanRequest)
 	if err := stream.RecvMsg(m); err != nil {
@@ -865,6 +904,10 @@ var RecordService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Update",
 			Handler:    _RecordService_Update_Handler,
+		},
+		{
+			MethodName: "DeleteFile",
+			Handler:    _RecordService_DeleteFile_Handler,
 		},
 		{
 			MethodName: "AddKeyRange",
