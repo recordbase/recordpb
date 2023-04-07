@@ -194,6 +194,48 @@
         ]
       }
     },
+    "/api/v1/records/download": {
+      "put": {
+        "summary": "Download File",
+        "operationId": "RecordService_DownloadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/recordbaseFileContent"
+                },
+                "error": {
+                  "$ref": "#/definitions/rpcStatus"
+                }
+              },
+              "title": "Stream result of recordbaseFileContent"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/recordbaseDownloadFileRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RecordService"
+        ]
+      }
+    },
     "/api/v1/records/get": {
       "put": {
         "summary": "Get record with all attributes",
@@ -518,6 +560,41 @@
           "RecordService"
         ]
       }
+    },
+    "/api/v1/records/upload": {
+      "put": {
+        "summary": "Upload File",
+        "operationId": "RecordService_UploadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " (streaming inputs)",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/recordbaseUploadFileContent"
+            }
+          }
+        ],
+        "tags": [
+          "RecordService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -653,11 +730,36 @@
         }
       }
     },
+    "recordbaseDownloadFileRequest": {
+      "type": "object",
+      "properties": {
+        "tenant": {
+          "type": "string"
+        },
+        "primaryKey": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string",
+          "title": "could be a path"
+        }
+      }
+    },
+    "recordbaseFileContent": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
     "recordbaseFileEntry": {
       "type": "object",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "title": "could be a path"
         },
         "data": {
           "type": "string",
@@ -682,9 +784,6 @@
         },
         "primaryKey": {
           "type": "string"
-        },
-        "fileContents": {
-          "type": "boolean"
         }
       }
     },
@@ -975,13 +1074,6 @@
             "type": "object",
             "$ref": "#/definitions/recordbaseColumnEntry"
           }
-        },
-        "files": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/recordbaseFileEntry"
-          }
         }
       }
     },
@@ -993,6 +1085,25 @@
         "REPLACE"
       ],
       "default": "UNKNOWN_TYPE"
+    },
+    "recordbaseUploadFileContent": {
+      "type": "object",
+      "properties": {
+        "tenant": {
+          "type": "string"
+        },
+        "primaryKey": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string",
+          "title": "could be a path"
+        },
+        "data": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
     },
     "rpcStatus": {
       "type": "object",

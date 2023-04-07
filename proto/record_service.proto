@@ -122,6 +122,26 @@ service RecordService {
     }
 
     //
+    // Upload File
+    //
+    rpc UploadFile(stream UploadFileContent) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            put: "/api/v1/records/upload"
+            body: "*"
+        };
+    }
+
+    //
+    // Download File
+    //
+    rpc DownloadFile(DownloadFileRequest) returns (stream FileContent) {
+        option (google.api.http) = {
+            put: "/api/v1/records/download"
+            body: "*"
+        };
+    }
+
+    //
     // Scan records
     //
     rpc Scan(ScanRequest) returns (stream RecordEntry) {
@@ -234,7 +254,6 @@ message SearchRequest {
 message GetRequest {
     string tenant = 1;
     string primary_key = 2;
-    bool   file_contents = 4;
 }
 
 message CreateResponse {
@@ -279,7 +298,23 @@ message UpdateRequest {
     repeated AttributeEntry attributes = 5;
     repeated string tags = 6;
     repeated ColumnEntry columns = 7;
-    repeated FileEntry files = 8;
+}
+
+message UploadFileContent {
+    string    tenant = 1;
+    string    primary_key = 2;
+    string    file_name = 3;  // could be a path
+    bytes     data = 4;
+}
+
+message DownloadFileRequest {
+    string    tenant = 1;
+    string    primary_key = 2;
+    string    file_name = 3;   // could be a path
+}
+
+message FileContent {
+    bytes  data = 1;
 }
 
 message ScanRequest {
@@ -344,7 +379,7 @@ message ColumnEntry {
 
 // keys stored inside the record, values stored outside of the record
 message FileEntry {
-    string name = 1;
+    string name = 1;  // could be a path
     bytes  data = 2;
     int32  size = 3;
     int64  created_at = 4;

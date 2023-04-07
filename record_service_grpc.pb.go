@@ -41,6 +41,8 @@ const (
 	RecordService_Create_FullMethodName         = "/recordbase.RecordService/Create"
 	RecordService_Delete_FullMethodName         = "/recordbase.RecordService/Delete"
 	RecordService_Update_FullMethodName         = "/recordbase.RecordService/Update"
+	RecordService_UploadFile_FullMethodName     = "/recordbase.RecordService/UploadFile"
+	RecordService_DownloadFile_FullMethodName   = "/recordbase.RecordService/DownloadFile"
 	RecordService_Scan_FullMethodName           = "/recordbase.RecordService/Scan"
 	RecordService_AddKeyRange_FullMethodName    = "/recordbase.RecordService/AddKeyRange"
 	RecordService_GetKeyCapacity_FullMethodName = "/recordbase.RecordService/GetKeyCapacity"
@@ -82,6 +84,14 @@ type RecordServiceClient interface {
 	// Update record attributes
 	//
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	//
+	// Upload File
+	//
+	UploadFile(ctx context.Context, opts ...grpc.CallOption) (RecordService_UploadFileClient, error)
+	//
+	// Download File
+	//
+	DownloadFile(ctx context.Context, in *DownloadFileRequest, opts ...grpc.CallOption) (RecordService_DownloadFileClient, error)
 	//
 	// Scan records
 	//
@@ -206,8 +216,74 @@ func (c *recordServiceClient) Update(ctx context.Context, in *UpdateRequest, opt
 	return out, nil
 }
 
+func (c *recordServiceClient) UploadFile(ctx context.Context, opts ...grpc.CallOption) (RecordService_UploadFileClient, error) {
+	stream, err := c.cc.NewStream(ctx, &RecordService_ServiceDesc.Streams[1], RecordService_UploadFile_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &recordServiceUploadFileClient{stream}
+	return x, nil
+}
+
+type RecordService_UploadFileClient interface {
+	Send(*UploadFileContent) error
+	CloseAndRecv() (*emptypb.Empty, error)
+	grpc.ClientStream
+}
+
+type recordServiceUploadFileClient struct {
+	grpc.ClientStream
+}
+
+func (x *recordServiceUploadFileClient) Send(m *UploadFileContent) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *recordServiceUploadFileClient) CloseAndRecv() (*emptypb.Empty, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(emptypb.Empty)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *recordServiceClient) DownloadFile(ctx context.Context, in *DownloadFileRequest, opts ...grpc.CallOption) (RecordService_DownloadFileClient, error) {
+	stream, err := c.cc.NewStream(ctx, &RecordService_ServiceDesc.Streams[2], RecordService_DownloadFile_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &recordServiceDownloadFileClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type RecordService_DownloadFileClient interface {
+	Recv() (*FileContent, error)
+	grpc.ClientStream
+}
+
+type recordServiceDownloadFileClient struct {
+	grpc.ClientStream
+}
+
+func (x *recordServiceDownloadFileClient) Recv() (*FileContent, error) {
+	m := new(FileContent)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *recordServiceClient) Scan(ctx context.Context, in *ScanRequest, opts ...grpc.CallOption) (RecordService_ScanClient, error) {
-	stream, err := c.cc.NewStream(ctx, &RecordService_ServiceDesc.Streams[1], RecordService_Scan_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &RecordService_ServiceDesc.Streams[3], RecordService_Scan_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -284,7 +360,7 @@ func (c *recordServiceClient) MapRemove(ctx context.Context, in *MapRemoveReques
 }
 
 func (c *recordServiceClient) MapRange(ctx context.Context, in *MapRangeRequest, opts ...grpc.CallOption) (RecordService_MapRangeClient, error) {
-	stream, err := c.cc.NewStream(ctx, &RecordService_ServiceDesc.Streams[2], RecordService_MapRange_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &RecordService_ServiceDesc.Streams[4], RecordService_MapRange_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -348,6 +424,14 @@ type RecordServiceServer interface {
 	//
 	Update(context.Context, *UpdateRequest) (*emptypb.Empty, error)
 	//
+	// Upload File
+	//
+	UploadFile(RecordService_UploadFileServer) error
+	//
+	// Download File
+	//
+	DownloadFile(*DownloadFileRequest, RecordService_DownloadFileServer) error
+	//
 	// Scan records
 	//
 	Scan(*ScanRequest, RecordService_ScanServer) error
@@ -402,6 +486,12 @@ func (UnimplementedRecordServiceServer) Delete(context.Context, *DeleteRequest) 
 }
 func (UnimplementedRecordServiceServer) Update(context.Context, *UpdateRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (UnimplementedRecordServiceServer) UploadFile(RecordService_UploadFileServer) error {
+	return status.Errorf(codes.Unimplemented, "method UploadFile not implemented")
+}
+func (UnimplementedRecordServiceServer) DownloadFile(*DownloadFileRequest, RecordService_DownloadFileServer) error {
+	return status.Errorf(codes.Unimplemented, "method DownloadFile not implemented")
 }
 func (UnimplementedRecordServiceServer) Scan(*ScanRequest, RecordService_ScanServer) error {
 	return status.Errorf(codes.Unimplemented, "method Scan not implemented")
@@ -564,6 +654,53 @@ func _RecordService_Update_Handler(srv interface{}, ctx context.Context, dec fun
 		return srv.(RecordServiceServer).Update(ctx, req.(*UpdateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
+}
+
+func _RecordService_UploadFile_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(RecordServiceServer).UploadFile(&recordServiceUploadFileServer{stream})
+}
+
+type RecordService_UploadFileServer interface {
+	SendAndClose(*emptypb.Empty) error
+	Recv() (*UploadFileContent, error)
+	grpc.ServerStream
+}
+
+type recordServiceUploadFileServer struct {
+	grpc.ServerStream
+}
+
+func (x *recordServiceUploadFileServer) SendAndClose(m *emptypb.Empty) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *recordServiceUploadFileServer) Recv() (*UploadFileContent, error) {
+	m := new(UploadFileContent)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func _RecordService_DownloadFile_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(DownloadFileRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(RecordServiceServer).DownloadFile(m, &recordServiceDownloadFileServer{stream})
+}
+
+type RecordService_DownloadFileServer interface {
+	Send(*FileContent) error
+	grpc.ServerStream
+}
+
+type recordServiceDownloadFileServer struct {
+	grpc.ServerStream
+}
+
+func (x *recordServiceDownloadFileServer) Send(m *FileContent) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _RecordService_Scan_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -754,6 +891,16 @@ var RecordService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "Search",
 			Handler:       _RecordService_Search_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "UploadFile",
+			Handler:       _RecordService_UploadFile_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "DownloadFile",
+			Handler:       _RecordService_DownloadFile_Handler,
 			ServerStreams: true,
 		},
 		{

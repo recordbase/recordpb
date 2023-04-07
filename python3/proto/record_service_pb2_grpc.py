@@ -54,6 +54,16 @@ class RecordServiceStub(object):
                 request_serializer=proto_dot_record__service__pb2.UpdateRequest.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
+        self.UploadFile = channel.stream_unary(
+                '/recordbase.RecordService/UploadFile',
+                request_serializer=proto_dot_record__service__pb2.UploadFileContent.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
+        self.DownloadFile = channel.unary_stream(
+                '/recordbase.RecordService/DownloadFile',
+                request_serializer=proto_dot_record__service__pb2.DownloadFileRequest.SerializeToString,
+                response_deserializer=proto_dot_record__service__pb2.FileContent.FromString,
+                )
         self.Scan = channel.unary_stream(
                 '/recordbase.RecordService/Scan',
                 request_serializer=proto_dot_record__service__pb2.ScanRequest.SerializeToString,
@@ -161,6 +171,24 @@ class RecordServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def UploadFile(self, request_iterator, context):
+        """
+        Upload File
+
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DownloadFile(self, request, context):
+        """
+        Download File
+
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def Scan(self, request, context):
         """
         Scan records
@@ -261,6 +289,16 @@ def add_RecordServiceServicer_to_server(servicer, server):
                     servicer.Update,
                     request_deserializer=proto_dot_record__service__pb2.UpdateRequest.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'UploadFile': grpc.stream_unary_rpc_method_handler(
+                    servicer.UploadFile,
+                    request_deserializer=proto_dot_record__service__pb2.UploadFileContent.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'DownloadFile': grpc.unary_stream_rpc_method_handler(
+                    servicer.DownloadFile,
+                    request_deserializer=proto_dot_record__service__pb2.DownloadFileRequest.FromString,
+                    response_serializer=proto_dot_record__service__pb2.FileContent.SerializeToString,
             ),
             'Scan': grpc.unary_stream_rpc_method_handler(
                     servicer.Scan,
@@ -427,6 +465,40 @@ class RecordService(object):
         return grpc.experimental.unary_unary(request, target, '/recordbase.RecordService/Update',
             proto_dot_record__service__pb2.UpdateRequest.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UploadFile(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/recordbase.RecordService/UploadFile',
+            proto_dot_record__service__pb2.UploadFileContent.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def DownloadFile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/recordbase.RecordService/DownloadFile',
+            proto_dot_record__service__pb2.DownloadFileRequest.SerializeToString,
+            proto_dot_record__service__pb2.FileContent.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
