@@ -452,12 +452,14 @@ message KeyRangeEntry {
 
 enum CommandOperation {
     UNKNOWN_OP = 0;
-    CREATE_OP  = 1;
-    UPDATE_OP  = 2;
-    DELETE_OP  = 3;
-    ADD_RANGE_OP = 4;
-    MAP_PUT = 5;
-    MAP_REMOVE = 6;
+    CREATE_OP  = 2;
+    UPDATE_OP  = 3;
+    DELETE_OP  = 4;
+    UPLOAD_FILE_OP = 5;
+    DELETE_FILE_OP = 6;
+    KEY_RANGE_OP = 7;
+    MAP_PUT = 8;
+    MAP_REMOVE = 9;
 }
 
 message Command {
