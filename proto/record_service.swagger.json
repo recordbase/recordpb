@@ -876,9 +876,6 @@
         },
         "key": {
           "type": "string"
-        },
-        "fileContents": {
-          "type": "boolean"
         }
       }
     },

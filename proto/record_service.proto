@@ -251,7 +251,6 @@ message LookupRequest {
     LookupType lookup_type = 2;
     string name = 3;
     string key = 4;
-    bool   file_contents = 5;
 }
 
 message SearchRequest {
