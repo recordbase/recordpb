@@ -34,7 +34,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RecordService_GetCounts_FullMethodName      = "/recordbase.RecordService/GetCounts"
+	RecordService_GetInfo_FullMethodName        = "/recordbase.RecordService/GetInfo"
 	RecordService_Lookup_FullMethodName         = "/recordbase.RecordService/Lookup"
 	RecordService_Search_FullMethodName         = "/recordbase.RecordService/Search"
 	RecordService_Get_FullMethodName            = "/recordbase.RecordService/Get"
@@ -51,6 +51,9 @@ const (
 	RecordService_MapPut_FullMethodName         = "/recordbase.RecordService/MapPut"
 	RecordService_MapRemove_FullMethodName      = "/recordbase.RecordService/MapRemove"
 	RecordService_MapRange_FullMethodName       = "/recordbase.RecordService/MapRange"
+	RecordService_BinGet_FullMethodName         = "/recordbase.RecordService/BinGet"
+	RecordService_BinPut_FullMethodName         = "/recordbase.RecordService/BinPut"
+	RecordService_BinRemove_FullMethodName      = "/recordbase.RecordService/BinRemove"
 )
 
 // RecordServiceClient is the client API for RecordService service.
@@ -58,9 +61,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RecordServiceClient interface {
 	//
-	// Gets attributes counts
+	// Gets attributes, tags, columns information
 	//
-	GetCounts(ctx context.Context, in *TenantRequest, opts ...grpc.CallOption) (*Counts, error)
+	GetInfo(ctx context.Context, in *TenantRequest, opts ...grpc.CallOption) (*Info, error)
 	//
 	// Quick record lookup request
 	//
@@ -82,7 +85,7 @@ type RecordServiceClient interface {
 	//
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	//
-	// Update record attributes
+	// Update record and re-index if needed
 	//
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	//
@@ -114,17 +117,29 @@ type RecordServiceClient interface {
 	//
 	MapGet(ctx context.Context, in *MapGetRequest, opts ...grpc.CallOption) (*MapEntry, error)
 	//
-	// Put map value associated with the record. Returns old value.
+	// Put map value associated with the record
 	//
 	MapPut(ctx context.Context, in *MapPutRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	//
-	// Remove map value associated with the record. Returns old value.
+	// Remove map value associated with the record
 	//
 	MapRemove(ctx context.Context, in *MapRemoveRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	//
 	// Scan all map key-value pairs
 	//
 	MapRange(ctx context.Context, in *MapRangeRequest, opts ...grpc.CallOption) (RecordService_MapRangeClient, error)
+	//
+	// Get bin value from the record
+	//
+	BinGet(ctx context.Context, in *BinGetRequest, opts ...grpc.CallOption) (*BinEntry, error)
+	//
+	// Put bin value to the record
+	//
+	BinPut(ctx context.Context, in *BinPutRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	//
+	// Remove bin value from the record
+	//
+	BinRemove(ctx context.Context, in *BinRemoveRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type recordServiceClient struct {
@@ -135,9 +150,9 @@ func NewRecordServiceClient(cc grpc.ClientConnInterface) RecordServiceClient {
 	return &recordServiceClient{cc}
 }
 
-func (c *recordServiceClient) GetCounts(ctx context.Context, in *TenantRequest, opts ...grpc.CallOption) (*Counts, error) {
-	out := new(Counts)
-	err := c.cc.Invoke(ctx, RecordService_GetCounts_FullMethodName, in, out, opts...)
+func (c *recordServiceClient) GetInfo(ctx context.Context, in *TenantRequest, opts ...grpc.CallOption) (*Info, error) {
+	out := new(Info)
+	err := c.cc.Invoke(ctx, RecordService_GetInfo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -405,14 +420,41 @@ func (x *recordServiceMapRangeClient) Recv() (*MapEntry, error) {
 	return m, nil
 }
 
+func (c *recordServiceClient) BinGet(ctx context.Context, in *BinGetRequest, opts ...grpc.CallOption) (*BinEntry, error) {
+	out := new(BinEntry)
+	err := c.cc.Invoke(ctx, RecordService_BinGet_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *recordServiceClient) BinPut(ctx context.Context, in *BinPutRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, RecordService_BinPut_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *recordServiceClient) BinRemove(ctx context.Context, in *BinRemoveRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, RecordService_BinRemove_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RecordServiceServer is the server API for RecordService service.
 // All implementations must embed UnimplementedRecordServiceServer
 // for forward compatibility
 type RecordServiceServer interface {
 	//
-	// Gets attributes counts
+	// Gets attributes, tags, columns information
 	//
-	GetCounts(context.Context, *TenantRequest) (*Counts, error)
+	GetInfo(context.Context, *TenantRequest) (*Info, error)
 	//
 	// Quick record lookup request
 	//
@@ -434,7 +476,7 @@ type RecordServiceServer interface {
 	//
 	Delete(context.Context, *DeleteRequest) (*emptypb.Empty, error)
 	//
-	// Update record attributes
+	// Update record and re-index if needed
 	//
 	Update(context.Context, *UpdateRequest) (*emptypb.Empty, error)
 	//
@@ -466,17 +508,29 @@ type RecordServiceServer interface {
 	//
 	MapGet(context.Context, *MapGetRequest) (*MapEntry, error)
 	//
-	// Put map value associated with the record. Returns old value.
+	// Put map value associated with the record
 	//
 	MapPut(context.Context, *MapPutRequest) (*emptypb.Empty, error)
 	//
-	// Remove map value associated with the record. Returns old value.
+	// Remove map value associated with the record
 	//
 	MapRemove(context.Context, *MapRemoveRequest) (*emptypb.Empty, error)
 	//
 	// Scan all map key-value pairs
 	//
 	MapRange(*MapRangeRequest, RecordService_MapRangeServer) error
+	//
+	// Get bin value from the record
+	//
+	BinGet(context.Context, *BinGetRequest) (*BinEntry, error)
+	//
+	// Put bin value to the record
+	//
+	BinPut(context.Context, *BinPutRequest) (*emptypb.Empty, error)
+	//
+	// Remove bin value from the record
+	//
+	BinRemove(context.Context, *BinRemoveRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedRecordServiceServer()
 }
 
@@ -484,8 +538,8 @@ type RecordServiceServer interface {
 type UnimplementedRecordServiceServer struct {
 }
 
-func (UnimplementedRecordServiceServer) GetCounts(context.Context, *TenantRequest) (*Counts, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCounts not implemented")
+func (UnimplementedRecordServiceServer) GetInfo(context.Context, *TenantRequest) (*Info, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInfo not implemented")
 }
 func (UnimplementedRecordServiceServer) Lookup(context.Context, *LookupRequest) (*RecordEntry, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Lookup not implemented")
@@ -535,6 +589,15 @@ func (UnimplementedRecordServiceServer) MapRemove(context.Context, *MapRemoveReq
 func (UnimplementedRecordServiceServer) MapRange(*MapRangeRequest, RecordService_MapRangeServer) error {
 	return status.Errorf(codes.Unimplemented, "method MapRange not implemented")
 }
+func (UnimplementedRecordServiceServer) BinGet(context.Context, *BinGetRequest) (*BinEntry, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BinGet not implemented")
+}
+func (UnimplementedRecordServiceServer) BinPut(context.Context, *BinPutRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BinPut not implemented")
+}
+func (UnimplementedRecordServiceServer) BinRemove(context.Context, *BinRemoveRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BinRemove not implemented")
+}
 func (UnimplementedRecordServiceServer) mustEmbedUnimplementedRecordServiceServer() {}
 
 // UnsafeRecordServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -548,20 +611,20 @@ func RegisterRecordServiceServer(s grpc.ServiceRegistrar, srv RecordServiceServe
 	s.RegisterService(&RecordService_ServiceDesc, srv)
 }
 
-func _RecordService_GetCounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RecordService_GetInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TenantRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RecordServiceServer).GetCounts(ctx, in)
+		return srv.(RecordServiceServer).GetInfo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RecordService_GetCounts_FullMethodName,
+		FullMethod: RecordService_GetInfo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RecordServiceServer).GetCounts(ctx, req.(*TenantRequest))
+		return srv.(RecordServiceServer).GetInfo(ctx, req.(*TenantRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -874,6 +937,60 @@ func (x *recordServiceMapRangeServer) Send(m *MapEntry) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _RecordService_BinGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BinGetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecordServiceServer).BinGet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RecordService_BinGet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecordServiceServer).BinGet(ctx, req.(*BinGetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RecordService_BinPut_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BinPutRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecordServiceServer).BinPut(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RecordService_BinPut_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecordServiceServer).BinPut(ctx, req.(*BinPutRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RecordService_BinRemove_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BinRemoveRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecordServiceServer).BinRemove(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RecordService_BinRemove_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecordServiceServer).BinRemove(ctx, req.(*BinRemoveRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RecordService_ServiceDesc is the grpc.ServiceDesc for RecordService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -882,8 +999,8 @@ var RecordService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*RecordServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetCounts",
-			Handler:    _RecordService_GetCounts_Handler,
+			MethodName: "GetInfo",
+			Handler:    _RecordService_GetInfo_Handler,
 		},
 		{
 			MethodName: "Lookup",
@@ -928,6 +1045,18 @@ var RecordService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MapRemove",
 			Handler:    _RecordService_MapRemove_Handler,
+		},
+		{
+			MethodName: "BinGet",
+			Handler:    _RecordService_BinGet_Handler,
+		},
+		{
+			MethodName: "BinPut",
+			Handler:    _RecordService_BinPut_Handler,
+		},
+		{
+			MethodName: "BinRemove",
+			Handler:    _RecordService_BinRemove_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

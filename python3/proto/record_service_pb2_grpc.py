@@ -19,10 +19,10 @@ class RecordServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetCounts = channel.unary_unary(
-                '/recordbase.RecordService/GetCounts',
+        self.GetInfo = channel.unary_unary(
+                '/recordbase.RecordService/GetInfo',
                 request_serializer=proto_dot_record__service__pb2.TenantRequest.SerializeToString,
-                response_deserializer=proto_dot_record__service__pb2.Counts.FromString,
+                response_deserializer=proto_dot_record__service__pb2.Info.FromString,
                 )
         self.Lookup = channel.unary_unary(
                 '/recordbase.RecordService/Lookup',
@@ -104,6 +104,21 @@ class RecordServiceStub(object):
                 request_serializer=proto_dot_record__service__pb2.MapRangeRequest.SerializeToString,
                 response_deserializer=proto_dot_record__service__pb2.MapEntry.FromString,
                 )
+        self.BinGet = channel.unary_unary(
+                '/recordbase.RecordService/BinGet',
+                request_serializer=proto_dot_record__service__pb2.BinGetRequest.SerializeToString,
+                response_deserializer=proto_dot_record__service__pb2.BinEntry.FromString,
+                )
+        self.BinPut = channel.unary_unary(
+                '/recordbase.RecordService/BinPut',
+                request_serializer=proto_dot_record__service__pb2.BinPutRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
+        self.BinRemove = channel.unary_unary(
+                '/recordbase.RecordService/BinRemove',
+                request_serializer=proto_dot_record__service__pb2.BinRemoveRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
 
 
 class RecordServiceServicer(object):
@@ -113,9 +128,9 @@ class RecordServiceServicer(object):
 
     """
 
-    def GetCounts(self, request, context):
+    def GetInfo(self, request, context):
         """
-        Gets attributes counts
+        Gets attributes, tags, columns information
 
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -169,7 +184,7 @@ class RecordServiceServicer(object):
 
     def Update(self, request, context):
         """
-        Update record attributes
+        Update record and re-index if needed
 
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -241,7 +256,7 @@ class RecordServiceServicer(object):
 
     def MapPut(self, request, context):
         """
-        Put map value associated with the record. Returns old value.
+        Put map value associated with the record
 
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -250,7 +265,7 @@ class RecordServiceServicer(object):
 
     def MapRemove(self, request, context):
         """
-        Remove map value associated with the record. Returns old value.
+        Remove map value associated with the record
 
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -266,13 +281,40 @@ class RecordServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def BinGet(self, request, context):
+        """
+        Get bin value from the record
+
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def BinPut(self, request, context):
+        """
+        Put bin value to the record
+
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def BinRemove(self, request, context):
+        """
+        Remove bin value from the record
+
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_RecordServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetCounts': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetCounts,
+            'GetInfo': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetInfo,
                     request_deserializer=proto_dot_record__service__pb2.TenantRequest.FromString,
-                    response_serializer=proto_dot_record__service__pb2.Counts.SerializeToString,
+                    response_serializer=proto_dot_record__service__pb2.Info.SerializeToString,
             ),
             'Lookup': grpc.unary_unary_rpc_method_handler(
                     servicer.Lookup,
@@ -354,6 +396,21 @@ def add_RecordServiceServicer_to_server(servicer, server):
                     request_deserializer=proto_dot_record__service__pb2.MapRangeRequest.FromString,
                     response_serializer=proto_dot_record__service__pb2.MapEntry.SerializeToString,
             ),
+            'BinGet': grpc.unary_unary_rpc_method_handler(
+                    servicer.BinGet,
+                    request_deserializer=proto_dot_record__service__pb2.BinGetRequest.FromString,
+                    response_serializer=proto_dot_record__service__pb2.BinEntry.SerializeToString,
+            ),
+            'BinPut': grpc.unary_unary_rpc_method_handler(
+                    servicer.BinPut,
+                    request_deserializer=proto_dot_record__service__pb2.BinPutRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'BinRemove': grpc.unary_unary_rpc_method_handler(
+                    servicer.BinRemove,
+                    request_deserializer=proto_dot_record__service__pb2.BinRemoveRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
             'recordbase.RecordService', rpc_method_handlers)
@@ -369,7 +426,7 @@ class RecordService(object):
     """
 
     @staticmethod
-    def GetCounts(request,
+    def GetInfo(request,
             target,
             options=(),
             channel_credentials=None,
@@ -379,9 +436,9 @@ class RecordService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/recordbase.RecordService/GetCounts',
+        return grpc.experimental.unary_unary(request, target, '/recordbase.RecordService/GetInfo',
             proto_dot_record__service__pb2.TenantRequest.SerializeToString,
-            proto_dot_record__service__pb2.Counts.FromString,
+            proto_dot_record__service__pb2.Info.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -654,5 +711,56 @@ class RecordService(object):
         return grpc.experimental.unary_stream(request, target, '/recordbase.RecordService/MapRange',
             proto_dot_record__service__pb2.MapRangeRequest.SerializeToString,
             proto_dot_record__service__pb2.MapEntry.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def BinGet(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/recordbase.RecordService/BinGet',
+            proto_dot_record__service__pb2.BinGetRequest.SerializeToString,
+            proto_dot_record__service__pb2.BinEntry.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def BinPut(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/recordbase.RecordService/BinPut',
+            proto_dot_record__service__pb2.BinPutRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def BinRemove(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/recordbase.RecordService/BinRemove',
+            proto_dot_record__service__pb2.BinRemoveRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

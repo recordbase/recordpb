@@ -52,11 +52,11 @@ package recordbase;
 service RecordService {
 
     //
-    // Gets attributes counts
+    // Gets attributes, tags, columns information
     //
-    rpc GetCounts(TenantRequest) returns (Counts) {
+    rpc GetInfo(TenantRequest) returns (Info) {
         option (google.api.http) = {
-            put: "/api/v1/counts"
+            put: "/api/v1/info"
             body: "*"
         };
     }
@@ -112,7 +112,7 @@ service RecordService {
     }
 
     //
-    // Update record attributes
+    // Update record and re-index if needed
     //
     rpc Update(UpdateRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
@@ -192,7 +192,7 @@ service RecordService {
     }
 
     //
-    // Put map value associated with the record. Returns old value.
+    // Put map value associated with the record
     //
     rpc MapPut(MapPutRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
@@ -202,7 +202,7 @@ service RecordService {
     }
 
     //
-    // Remove map value associated with the record. Returns old value.
+    // Remove map value associated with the record
     //
     rpc MapRemove(MapRemoveRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
@@ -221,6 +221,37 @@ service RecordService {
         };
     }
 
+    //
+    // Get bin value from the record
+    //
+    rpc BinGet(BinGetRequest) returns (BinEntry) {
+        option (google.api.http) = {
+            put: "/api/v1/records/bin/get"
+            body: "*"
+        };
+    }
+
+    //
+    // Put bin value to the record
+    //
+    rpc BinPut(BinPutRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            put: "/api/v1/records/bin/put"
+            body: "*"
+        };
+    }
+
+    //
+    // Remove bin value from the record
+    //
+    rpc BinRemove(BinRemoveRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            put: "/api/v1/records/bin/remove"
+            body: "*"
+        };
+    }
+
+
 }
 
 message TenantRequest {
@@ -232,11 +263,11 @@ message CountEntry {
     int64   count = 2;
 }
 
-message Counts {
+message Info {
     string  tenant = 1;
     repeated CountEntry attributes = 2;
     repeated CountEntry tags = 3;
-    repeated CountEntry columns = 4;
+    repeated CountEntry bins = 4;
 }
 
 enum LookupType {
@@ -284,7 +315,7 @@ message CreateRequest {
     string tenant = 1;
     repeated AttributeEntry attributes = 5;
     repeated string tags = 6;
-    repeated ColumnEntry columns = 7;
+    repeated BinEntry bins = 7;
 }
 
 message DeleteRequest {
@@ -305,7 +336,7 @@ message UpdateRequest {
 
     repeated AttributeEntry attributes = 5;
     repeated string tags = 6;
-    repeated ColumnEntry columns = 7;
+    repeated BinEntry bins = 7;
 }
 
 message UploadFileContent {
@@ -372,28 +403,53 @@ message MapRangeRequest {
     string    primary_key = 2;
 }
 
+message BinGetRequest {
+    string  tenant = 1;
+    string  primary_key = 2;
+    string  bin_name = 3;
+}
+
+message BinPutRequest {
+    string  tenant = 1;
+    string  primary_key = 2;
+    string  bin_name = 3;
+    bytes   value = 4;
+}
+
+message BinRemoveRequest {
+    string  tenant = 1;
+    string  primary_key = 2;
+    string  bin_name = 3;
+}
+
 //
 // Persist
 //
 
 // all attributes are indexed in the form of 'name:value' -> record, list<record>
+// attribute could be an unique index of records or not
+// index located in tenant:attr:sha265("name:value"):primary_key
 message AttributeEntry {
     string  name = 1;
     string  value = 2;
 }
 
 // all tags are indexed in the form of 'tag' -> list<record>
+// tag is not unique index of records
+// index located in tenant:tag:sha256("tag"):primary_key
 message TagEntry {
     string tag = 1;
 }
 
 // keys stored inside the record, values stored inside the record
-message ColumnEntry {
+// preferred format for the value is msgpack or json
+message BinEntry {
     string  name = 1;
     bytes   value = 2;
 }
 
 // keys stored inside the record, values stored outside of the record
+// file content located in tenant:file:primary_key:sha256(file_name):chunk_num
 message FileEntry {
     string name = 1;  // could be a path
     bytes  data = 2;
@@ -404,6 +460,7 @@ message FileEntry {
 }
 
 // keys stored outside of the record, values stored outside of the record
+// located in tenant:map:primary_key:map_key
 message MapEntry {
     string map_key = 1;
     bytes  value = 2;
@@ -427,9 +484,9 @@ message RecordEntry {
     repeated string tags = 11;
 
     // values stored inside the record
-    repeated ColumnEntry columns = 12;
+    repeated BinEntry bins = 12;
 
-    // values stored outside of record
+    // files stored outside of the record
     repeated FileEntry files = 13;
 }
 
@@ -453,6 +510,8 @@ enum CommandOperation {
     KEY_RANGE_OP = 7;
     MAP_PUT = 8;
     MAP_REMOVE = 9;
+    BIN_PUT = 10;
+    BIN_REMOVE = 11;
 }
 
 message Command {
@@ -465,6 +524,8 @@ message Command {
     KeyRange           key_range = 7;
     MapPutRequest      map_put_req = 8;
     MapRemoveRequest   map_remove_req = 9;
+    BinPutRequest      bin_put_req = 10;
+    BinRemoveRequest   bin_remove_req = 11;
 }
 
 

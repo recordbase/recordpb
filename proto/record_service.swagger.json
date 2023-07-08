@@ -27,39 +27,6 @@
     "application/octet-stream"
   ],
   "paths": {
-    "/api/v1/counts": {
-      "put": {
-        "summary": "Gets attributes counts",
-        "operationId": "RecordService_GetCounts",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/recordbaseCounts"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/recordbaseTenantRequest"
-            }
-          }
-        ],
-        "tags": [
-          "RecordService"
-        ]
-      }
-    },
     "/api/v1/files/delete": {
       "put": {
         "summary": "Delete File",
@@ -171,6 +138,39 @@
         ]
       }
     },
+    "/api/v1/info": {
+      "put": {
+        "summary": "Gets attributes, tags, columns information",
+        "operationId": "RecordService_GetInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/recordbaseInfo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/recordbaseTenantRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RecordService"
+        ]
+      }
+    },
     "/api/v1/keys/add": {
       "put": {
         "summary": "Allocate primary key range",
@@ -230,6 +230,107 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/recordbaseTenantRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RecordService"
+        ]
+      }
+    },
+    "/api/v1/records/bin/get": {
+      "put": {
+        "summary": "Get bin value from the record",
+        "operationId": "RecordService_BinGet",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/recordbaseBinEntry"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/recordbaseBinGetRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RecordService"
+        ]
+      }
+    },
+    "/api/v1/records/bin/put": {
+      "put": {
+        "summary": "Put bin value to the record",
+        "operationId": "RecordService_BinPut",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/recordbaseBinPutRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RecordService"
+        ]
+      }
+    },
+    "/api/v1/records/bin/remove": {
+      "put": {
+        "summary": "Remove bin value from the record",
+        "operationId": "RecordService_BinRemove",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/recordbaseBinRemoveRequest"
             }
           }
         ],
@@ -406,7 +507,7 @@
     },
     "/api/v1/records/map/put": {
       "put": {
-        "summary": "Put map value associated with the record. Returns old value.",
+        "summary": "Put map value associated with the record",
         "operationId": "RecordService_MapPut",
         "responses": {
           "200": {
@@ -482,7 +583,7 @@
     },
     "/api/v1/records/map/remove": {
       "put": {
-        "summary": "Remove map value associated with the record. Returns old value.",
+        "summary": "Remove map value associated with the record",
         "operationId": "RecordService_MapRemove",
         "responses": {
           "200": {
@@ -600,7 +701,7 @@
     },
     "/api/v1/records/update": {
       "put": {
-        "summary": "Update record attributes",
+        "summary": "Update record and re-index if needed",
         "operationId": "RecordService_Update",
         "responses": {
           "200": {
@@ -653,9 +754,9 @@
           "type": "string"
         }
       },
-      "title": "all attributes are indexed in the form of 'name:value' -\u003e record, list\u003crecord\u003e"
+      "title": "all attributes are indexed in the form of 'name:value' -\u003e record, list\u003crecord\u003e\nattribute could be an unique index of records or not\nindex located in tenant:attr:sha265(\"name:value\"):primary_key"
     },
-    "recordbaseColumnEntry": {
+    "recordbaseBinEntry": {
       "type": "object",
       "properties": {
         "name": {
@@ -666,7 +767,53 @@
           "format": "byte"
         }
       },
-      "title": "keys stored inside the record, values stored inside the record"
+      "title": "keys stored inside the record, values stored inside the record\npreferred format for the value is msgpack or json"
+    },
+    "recordbaseBinGetRequest": {
+      "type": "object",
+      "properties": {
+        "tenant": {
+          "type": "string"
+        },
+        "primaryKey": {
+          "type": "string"
+        },
+        "binName": {
+          "type": "string"
+        }
+      }
+    },
+    "recordbaseBinPutRequest": {
+      "type": "object",
+      "properties": {
+        "tenant": {
+          "type": "string"
+        },
+        "primaryKey": {
+          "type": "string"
+        },
+        "binName": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "recordbaseBinRemoveRequest": {
+      "type": "object",
+      "properties": {
+        "tenant": {
+          "type": "string"
+        },
+        "primaryKey": {
+          "type": "string"
+        },
+        "binName": {
+          "type": "string"
+        }
+      }
     },
     "recordbaseCountEntry": {
       "type": "object",
@@ -677,35 +824,6 @@
         "count": {
           "type": "string",
           "format": "int64"
-        }
-      }
-    },
-    "recordbaseCounts": {
-      "type": "object",
-      "properties": {
-        "tenant": {
-          "type": "string"
-        },
-        "attributes": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/recordbaseCountEntry"
-          }
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/recordbaseCountEntry"
-          }
-        },
-        "columns": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/recordbaseCountEntry"
-          }
         }
       }
     },
@@ -728,11 +846,11 @@
             "type": "string"
           }
         },
-        "columns": {
+        "bins": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordbaseColumnEntry"
+            "$ref": "#/definitions/recordbaseBinEntry"
           }
         }
       }
@@ -826,7 +944,7 @@
           "format": "int64"
         }
       },
-      "title": "keys stored inside the record, values stored outside of the record"
+      "title": "keys stored inside the record, values stored outside of the record\nfile content located in tenant:file:primary_key:sha256(file_name):chunk_num"
     },
     "recordbaseGetRequest": {
       "type": "object",
@@ -836,6 +954,35 @@
         },
         "primaryKey": {
           "type": "string"
+        }
+      }
+    },
+    "recordbaseInfo": {
+      "type": "object",
+      "properties": {
+        "tenant": {
+          "type": "string"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/recordbaseCountEntry"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/recordbaseCountEntry"
+          }
+        },
+        "bins": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/recordbaseCountEntry"
+          }
         }
       }
     },
@@ -906,7 +1053,7 @@
           "format": "int32"
         }
       },
-      "title": "keys stored outside of the record, values stored outside of the record"
+      "title": "keys stored outside of the record, values stored outside of the record\nlocated in tenant:map:primary_key:map_key"
     },
     "recordbaseMapGetRequest": {
       "type": "object",
@@ -1009,11 +1156,11 @@
           },
           "title": "all records are indexed by tag"
         },
-        "columns": {
+        "bins": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordbaseColumnEntry"
+            "$ref": "#/definitions/recordbaseBinEntry"
           },
           "title": "values stored inside the record"
         },
@@ -1023,7 +1170,7 @@
             "type": "object",
             "$ref": "#/definitions/recordbaseFileEntry"
           },
-          "title": "values stored outside of record"
+          "title": "files stored outside of the record"
         }
       },
       "title": "located in tenant:rec:primary_key"
@@ -1097,11 +1244,11 @@
             "type": "string"
           }
         },
-        "columns": {
+        "bins": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/recordbaseColumnEntry"
+            "$ref": "#/definitions/recordbaseBinEntry"
           }
         }
       }
